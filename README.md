@@ -3,6 +3,10 @@
 In the `package.json`:
 
 ```
+  "scripts": {
+    "build": "build",
+    "serve": "devserver"
+  },
   "webpack": {
     "source": "src",
     "static": "static",
@@ -10,5 +14,5 @@ In the `package.json`:
     "html": "src/index.ejs",
     "main": "src/app.js",
     "devport": "3000"
-  },
+  }
 ```
