@@ -1,0 +1,36 @@
+{
+  "name": "hello_world",
+  "version": "0.1.0",
+  "description": "",
+  "main": "./src/index.ejs",
+  "scripts": {
+    "start": "devserver",
+    "build": "build"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 6.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
+  "webpack": {
+    "source": "src",
+    "static": "static",
+    "build": "dist",
+    "html": "src/index.ejs",
+    "main": "src/app.js",
+    "devport": "3000"
+  },
+  "devDependencies": {
+    "webpack-config": "../"
+  },
+  "dependencies": {
+    "react": "15.6.1",
+    "react-dom": "15.6.1"
+  }
+}
