@@ -155,13 +155,12 @@ const config = {
             //     exclude: [/(node_modules|public|demo)/]
             // },
 
-            // {
-            //     test: /\.module.css$/,
-            //     use: moduleCssLoaders
-            // },
             {
-                // test: /^((?!\.module).)*css$/,
-                test: /\.css$/,
+                test: /\.module.css$/,
+                use: moduleCssLoaders
+            },
+            {
+                test: /^((?!\.module).)*css$/,
                 use: cssLoaders
             },
 
