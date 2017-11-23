@@ -1,3 +1,11 @@
+## Installation
+
+`npm i --dev https://git.io/vFxBD`
+
+Or with yarn
+
+`yarn add --dev https://git.io/vFxBD`
+
 ## Configuration exaple
 
 In the `package.json`:
