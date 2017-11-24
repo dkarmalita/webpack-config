@@ -7,6 +7,8 @@ if(process.env.NODE_ENV != 'test'){
   // require('./assets/sass/screen.scss');
 }
 
-// require('./router');
-// require('./wip');
-require('./hello-world');
+setTimeout(
+    () => require('./hello-world'),
+    100
+)
+// require('./hello-world');
