@@ -29,3 +29,4 @@ In the `package.json`:
     "fix": true
   }
 ```
+
