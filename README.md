@@ -13,7 +13,8 @@ In the `package.json`:
 ```
   "scripts": {
     "build": "build",
-    "serve": "devserver"
+    "serve": "devserver",
+    "esfix": "esfix"
   },
   "webpack": {
     "source": "src",
@@ -22,5 +23,9 @@ In the `package.json`:
     "html": "src/index.ejs",
     "main": "src/app.js",
     "devport": "3000"
+  },
+  "eslintConfig": {
+    "files": [ "src/**/*.js", "src/**/*.jsx" ],
+    "fix": true
   }
 ```
