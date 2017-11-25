@@ -5,7 +5,8 @@
   "main": "./src/index.ejs",
   "scripts": {
     "start": "devserver",
-    "build": "build"
+    "build": "build",
+    "fix": "esfix"
   },
   "keywords": [],
   "license": "MIT",
@@ -25,6 +26,10 @@
     "html": "src/index.ejs",
     "main": "src/app.js",
     "devport": "3000"
+  },
+  "eslintConfig": {
+    "files": [ "src/**/*.js", "src/**/*.jsx" ],
+    "fix": true
   },
   "devDependencies": {
     "webpack-config": "../"

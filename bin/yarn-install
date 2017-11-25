@@ -1,0 +1,40 @@
+#!/bin/bash
+
+yarn add babel-cli \
+babel-core \
+babel-loader \
+babel-plugin-transform-class-properties \
+babel-plugin-transform-object-rest-spread \
+babel-plugin-transform-react-remove-prop-types \
+babel-plugin-transform-runtime \
+babel-preset-env \
+babel-preset-react \
+babel-runtime
+
+yarn add autoprefixer \
+clean-webpack-plugin \
+compression-webpack-plugin \
+copy-webpack-plugin \
+css-loader \
+file-loader \
+html-loader \
+html-webpack-plugin \
+markdown-loader \
+node-sass \
+postcss-easy-import \
+postcss-loader \
+raw-loader \
+sass-loader \
+style-loader \
+url-loader \
+webpack \
+webpack-browser-plugin \
+webpack-dev-server \
+webpack-merge
+
+yarn add babel-eslint \
+eslint \
+eslint-plugin-class-property \
+eslint-plugin-react
+
+# yarn add --dev flow-bin

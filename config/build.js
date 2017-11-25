@@ -1,11 +1,11 @@
-/* eslint no-console: "allow" */
+/* eslint no-console: 0 */
 
 // Set environment variable to use by React & Babel
 // ------------------------------------------------
 // refs:  https://babeljs.io/docs/usage/babelrc/#env-option
 //        http://stackoverflow.com/a/36285479
 //        https://facebook.github.io/react/docs/optimizing-performance.html#webpack
-process.env.NODE_ENV = 'production'
+process.env.NODE_ENV = 'production';
 
 // Execute common initialization and import vars
 // ---------------------------------------------
@@ -14,11 +14,11 @@ const {
     statPath, // path to static content (resolved)
     distPath, // Target path for distribution to generate
     rootPath, // Root of the project
-} = require('./common')
+} = require('./common');
 
 // Import required webpack packages
 // --------------------------------
-const webpack = require('webpack')
+const webpack = require('webpack');
 
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 // plugin to remove/clean build folder(s) before building
@@ -83,10 +83,10 @@ config.stats = {
     modules: false,
     colors: true,
     hash: true
-}
+};
 // config.module.rules = config.module.rules.concat([{
 //     test: /\.(sass|scss)/,
 //     loader: 'style-loader!css-loader!autoprefixer-loader?{browsers:["last 1 version", "ie >= 11"]}!sass-loader'
 // }]);
 
-module.exports = config
+module.exports = config;

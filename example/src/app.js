@@ -4,11 +4,11 @@ info('Environment: ' + process.env.NODE_ENV);
 
 // note: (kard) raw CSS import must be avoided while no bundling is involved.
 if(process.env.NODE_ENV != 'test'){
-  // require('./assets/sass/screen.scss');
+    // require('./assets/sass/screen.scss');
 }
 
 setTimeout(
     () => require('./hello-world'),
     100
-)
+);
 // require('./hello-world');

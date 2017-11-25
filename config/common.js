@@ -1,4 +1,4 @@
-/* eslint no-console: "allow" */
+/* eslint no-console: 0 */
 
 const babelConfig = require('./babel');
 
@@ -8,7 +8,7 @@ const path = require('path');
 
 // Import required webpack packages
 // --------------------------------
-const webpack = require('webpack')
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const cssEasyImport = require('postcss-easy-import');
@@ -26,7 +26,7 @@ const pkg = require(path.join(rootPath, 'package.json'));
 // It takes NPM original script name in variable.
 // Returns `undefined` while 'webpack' is run directly.
 const npmScript = process.env.npm_lifecycle_event;
-console.log('=> Running NPM script: \'' + npmScript + '\'')
+console.log('=> Running NPM script: \'' + npmScript + '\'');
 
 // Generate an error if webpack is run directly
 // --------------------------------------------
@@ -53,7 +53,7 @@ const pubPath = '/'; // Path of the application on a domen
 
 // Prepare PostCSS loaders
 // -----------------------
-const isDevelopment = () => process.env.NODE_ENV === 'development'
+const isDevelopment = () => process.env.NODE_ENV === 'development';
 
 const cssLoaders = [{
     loader: 'style-loader',
@@ -73,7 +73,7 @@ const cssLoaders = [{
         sourceMap: isDevelopment(),
         plugins: () => [autoprefixer, cssEasyImport]
     },
-}]
+}];
 
 const scssLoaders = [
     ...cssLoaders, {
@@ -82,7 +82,7 @@ const scssLoaders = [
             sourceMap: isDevelopment()
         },
     },
-]
+];
 
 const moduleCssLoaders = [{
     loader: 'style-loader',
@@ -102,7 +102,7 @@ const moduleCssLoaders = [{
         sourceMap: isDevelopment(),
         plugins: () => [autoprefixer, cssEasyImport]
     },
-}]
+}];
 
 const moduleScssLoaders = [
     ...moduleCssLoaders, {
@@ -111,7 +111,7 @@ const moduleScssLoaders = [
             sourceMap: isDevelopment()
         },
     },
-]
+];
 
 // Prepare common part of Webpack configuration
 // --------------------------------------------
@@ -220,43 +220,43 @@ const config = {
                 use: "url-loader?limit=10000&mimetype=application/octet-stream"
             },
             {
-              test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-              loader: 'url-loader',
-              query: {
-                limit: 10000,
-                mimetype: "application/font-woff",
-                name: '[name].[hash:7].[ext]',
-                outputPath: 'assets/',
-              }
+                test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: 'url-loader',
+                query: {
+                    limit: 10000,
+                    mimetype: "application/font-woff",
+                    name: '[name].[hash:7].[ext]',
+                    outputPath: 'assets/',
+                }
             },
             {
-              test: /\.(eot|ttf|otf)(\?.*)?$/,
-              loader: 'url-loader',
-              query: {
-                limit: 10000,
-                name: '[name].[hash:7].[ext]',
-                outputPath: 'assets/',
-              }
+                test: /\.(eot|ttf|otf)(\?.*)?$/,
+                loader: 'url-loader',
+                query: {
+                    limit: 10000,
+                    name: '[name].[hash:7].[ext]',
+                    outputPath: 'assets/',
+                }
             },
 
             // ## js/jsx
             {
                 test: /\.(js|jsx)/,
-                  use: {
+                use: {
                     loader: 'babel-loader',
                     options: babelConfig
-                  },
+                },
                 // use: [
                 //     'babel-loader', //
-                    // {
-                    //     loader: 'eslint-loader',
-                    //     options: {
-                    //         fix: true,
-                    //         // cache: true,
-                    //         // formatter: require("eslint-friendly-formatter")
-                    //     }
-                    // }
-            //     ],
+                // {
+                //     loader: 'eslint-loader',
+                //     options: {
+                //         fix: true,
+                //         // cache: true,
+                //         // formatter: require("eslint-friendly-formatter")
+                //     }
+                // }
+                //     ],
                 exclude: /(node_modules|public)/
             },
             {
@@ -332,4 +332,4 @@ module.exports = {
     rootPath, // Root of the project
     srcPath, // Sources files
     statPath, // Static files ro include in distribution
-}
+};

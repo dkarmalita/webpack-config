@@ -38,7 +38,7 @@ config.devServer = {
 
     // Enable fallback to specific point for spacific links
     historyApiFallback: {
-        //index: '/'  // redirect any nonexisting path to the root
+    //index: '/'  // redirect any nonexisting path to the root
         rewrites: [
             // redirect all of the absent .html pages to basic root '/'
             // https://github.com/webpack/docs/wiki/webpack-dev-server#the-historyapifallback-option
@@ -48,9 +48,9 @@ config.devServer = {
     },
 
     stats: {
-        // ref: https://webpack.js.org/configuration/stats/
+    // ref: https://webpack.js.org/configuration/stats/
 
-        // options for formatting the statistics
+    // options for formatting the statistics
         colors: true,
         // Add asset Information
         assets: false,

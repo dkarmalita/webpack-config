@@ -1,7 +1,15 @@
 #!/usr/bin/env node
-
+/**
+ * @fileoverview Webpack CLI default configuration utility.
+ * @author Dmitriy Karmalita
+ *
+ * Note: babel & webpack stacks are required.
+ */
+/* eslint no-console: 0 */
 'use strict';
-//ref: https://webpack.js.org/configuration/stats/
+
+// doc refs:
+// * https://webpack.js.org/configuration/stats/
 
 const webpack = require('webpack');
 const buildconfig = require('../config/build');
@@ -9,48 +17,28 @@ const buildconfig = require('../config/build');
 const statsConfig = buildconfig.stats || {
     modules: false,
     colors: true,
-}
+};
 
-const compiler = webpack(buildconfig,
-(err, stats) => {
+const errorStatsConfig = {
+    errorDetails: true,
+    warnings: true,
+    colors: true
+};
 
-    if(err) {
-        console.log(err);
-        return
-    }
+const compile = async () => webpack(buildconfig,
+    (err, stats) => {
 
-    if (stats.hasErrors() || stats.hasWarnings()) {
-        console.log(stats.toString({
-            errorDetails: true,
-            warnings: true,
-            colors: true
-        }))
-        return
-    }
+        if(err) {
+            console.log(err);
+            return;
+        }
 
-    console.log(stats.toString(buildconfig.stats));
-})
+        if (stats.hasErrors() || stats.hasWarnings()) {
+            console.log(stats.toString(errorStatsConfig));
+            return;
+        }
 
+        console.log(stats.toString(statsConfig));
+    });
 
-// const compiler = webpack(buildconfig);
-// compiler.run((err, stats) => {
-
-//     if(err) {
-//         console.log(err);
-//         return
-//     }
-
-//     if (stats.hasErrors() || stats.hasWarnings()) {
-//         console.log(stats.toString({
-//             errorDetails: true,
-//             warnings: true,
-//             colors: true
-//         }))
-//         return
-//     }
-
-//     console.log(stats.toString({
-//             modules: false,
-//             colors: true
-//     }));
-// })
+compile();
