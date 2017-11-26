@@ -6,25 +6,25 @@
  * Note: babel & eslint stacks are required.
  */
 /* eslint no-console: 0 */
-'use strict';
+'use strict'
 
-const path = require('path');
+const path = require('path')
 
-const rootPath = process.cwd();
+const rootPath = process.cwd()
 
-const defaultConfig = require('../config/eslint');
-const customConfig = require(path.join(rootPath, 'package.json'))['eslintConfig'];
+const defaultConfig = require('../config/eslint')
+const customConfig = require(path.join(rootPath, 'package.json'))['eslintConfig']
 
 const eslintConfig = {
     ...defaultConfig,
-    ...customConfig
-};
+    ...customConfig,
+}
 
-const CLIEngine = require("eslint").CLIEngine;
+const CLIEngine = require('eslint').CLIEngine
 
-const cli = new CLIEngine(eslintConfig);
+const cli = new CLIEngine(eslintConfig)
 
-const formatter = cli.getFormatter(eslintConfig.formatter || "codeframe");  // ?
+const formatter = cli.getFormatter(eslintConfig.formatter || 'codeframe') // ?
 
 // Formatter options are:
 // var formatter = cli.getFormatter();  // “stylish” (the default)
@@ -39,6 +39,6 @@ const formatter = cli.getFormatter(eslintConfig.formatter || "codeframe");  // ?
 // var formatter = cli.getFormatter("tap");
 // var formatter = cli.getFormatter("unix"); // ? == compact
 
-const report = cli.executeOnFiles(eslintConfig.files || [ "src/**/*.js", "src/**/*.jsx" ]);//files);
-CLIEngine.outputFixes(report);
-console.log(formatter(report.results));
+const report = cli.executeOnFiles(eslintConfig.files || [ 'src/**/*.js', 'src/**/*.jsx' ])// files);
+CLIEngine.outputFixes(report)
+console.log(formatter(report.results))

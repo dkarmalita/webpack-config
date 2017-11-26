@@ -21,3 +21,4 @@ Thumbs.db
 
 .eslintcache
 TRASH
+*.tmp

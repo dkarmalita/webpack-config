@@ -37,4 +37,9 @@ eslint \
 eslint-plugin-class-property \
 eslint-plugin-react
 
+yarn add eslint-plugin-promise \
+eslint-plugin-standard \
+eslint-plugin-node \
+eslint-plugin-import
+
 # yarn add --dev flow-bin

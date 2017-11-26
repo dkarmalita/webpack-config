@@ -1,6 +1,6 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 ReactDOM.render((
     <div>Hello World, Dear!</div>
-), document.getElementsByTagName('div')[0]);
+), document.getElementsByTagName('div')[0])

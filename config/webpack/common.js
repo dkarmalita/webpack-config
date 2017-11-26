@@ -1,65 +1,65 @@
-/* eslint no-console: 0 */
+/* eslint no-console: 0, 'no-useless-escape': 'off' */
 
-const babelConfig = require('./babel');
+const babelConfig = require('./babel')
 
 // Import required node packages
 // -----------------------------
-const path = require('path');
+const path = require('path')
 
 // Import required webpack packages
 // --------------------------------
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const autoprefixer = require('autoprefixer');
-const cssEasyImport = require('postcss-easy-import');
+const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const autoprefixer = require('autoprefixer')
+const cssEasyImport = require('postcss-easy-import')
 
 // Get root path of the project
 // ----------------------------
-const rootPath = process.cwd();
+const rootPath = process.cwd()
 
 // Import project's `package.json`
 // -------------------------------
-const pkg = require(path.join(rootPath, 'package.json'));
+const pkg = require(path.join(rootPath, 'package.json'))
 
 // Get name of the npm's script executed
 // -------------------------------------
 // It takes NPM original script name in variable.
 // Returns `undefined` while 'webpack' is run directly.
-const npmScript = process.env.npm_lifecycle_event;
-console.log('=> Running NPM script: \'' + npmScript + '\'');
+const npmScript = process.env.npm_lifecycle_event
+console.log('=> Running NPM script: \'' + npmScript + '\'')
 
 // Generate an error if webpack is run directly
 // --------------------------------------------
-if (typeof(npmScript) == "undefined") {
-    const scripts = Object.keys(pkg.scripts);
-    console.log("Please don't run webpack directly, use one of the following npm scripts:");
-    console.log(scripts.toString());
-    console.log("Example: npm run", scripts[0]);
-    process.exit(1);
+if (typeof (npmScript) === 'undefined') {
+    const scripts = Object.keys(pkg.scripts)
+    console.log('Please don\'t run webpack directly, use one of the following npm scripts:')
+    console.log(scripts.toString())
+    console.log('Example: npm run', scripts[0])
+    process.exit(1)
 }
 
 // Configure paths of the application
 // ----------------------------------
 // const rootPath   = path.resolve(__dirname, "../../");       // Root of the project
 // const mainFileName = path.parse(pkg.main).base
-const srcPath = path.join(rootPath, pkg.webpack.source); // Sources files
-const statPath = path.join(rootPath, pkg.webpack.static); // Static files ro include in distribution
-const distPath = path.join(rootPath, pkg.webpack.build); // Target path for distribution to generate
+const srcPath = path.join(rootPath, pkg.webpack.source) // Sources files
+const statPath = path.join(rootPath, pkg.webpack.static) // Static files ro include in distribution
+const distPath = path.join(rootPath, pkg.webpack.build) // Target path for distribution to generate
 
-const htmlTempl = path.join(rootPath, pkg.webpack.html); // Template to generate the "index.html"
-const appMain = path.join(rootPath, pkg.webpack.main); // Main application's file
+const htmlTempl = path.join(rootPath, pkg.webpack.html) // Template to generate the "index.html"
+const appMain = path.join(rootPath, pkg.webpack.main) // Main application's file
 
-const pubPath = '/'; // Path of the application on a domen
+const pubPath = '/' // Path of the application on a domen
 
 // Prepare PostCSS loaders
 // -----------------------
-const isDevelopment = () => process.env.NODE_ENV === 'development';
+const isDevelopment = () => process.env.NODE_ENV === 'development'
 
 const cssLoaders = [{
     loader: 'style-loader',
     options: {
-        sourceMap: isDevelopment()
-    }
+        sourceMap: isDevelopment(),
+    },
 }, {
     loader: 'css-loader',
     options: {
@@ -71,24 +71,24 @@ const cssLoaders = [{
     loader: 'postcss-loader',
     options: {
         sourceMap: isDevelopment(),
-        plugins: () => [autoprefixer, cssEasyImport]
+        plugins: () => [ autoprefixer, cssEasyImport ],
     },
-}];
+}]
 
 const scssLoaders = [
     ...cssLoaders, {
         loader: 'sass-loader',
         options: {
-            sourceMap: isDevelopment()
+            sourceMap: isDevelopment(),
         },
     },
-];
+]
 
 const moduleCssLoaders = [{
     loader: 'style-loader',
     options: {
-        sourceMap: isDevelopment()
-    }
+        sourceMap: isDevelopment(),
+    },
 }, {
     loader: 'css-loader',
     options: {
@@ -100,30 +100,30 @@ const moduleCssLoaders = [{
     loader: 'postcss-loader',
     options: {
         sourceMap: isDevelopment(),
-        plugins: () => [autoprefixer, cssEasyImport]
+        plugins: () => [ autoprefixer, cssEasyImport ],
     },
-}];
+}]
 
 const moduleScssLoaders = [
     ...moduleCssLoaders, {
         loader: 'sass-loader',
         options: {
-            sourceMap: isDevelopment()
+            sourceMap: isDevelopment(),
         },
     },
-];
+]
 
 // Prepare common part of Webpack configuration
 // --------------------------------------------
 const config = {
     entry: [
-        appMain
+        appMain,
     ],
     output: {
-        filename: "[name].js", // Output bundle naming rule
+        filename: '[name].js', // Output bundle naming rule
         path: distPath, // Output path for the bundles
         publicPath: pubPath, //
-        chunkFilename: "async.[id].js",
+        chunkFilename: 'async.[id].js',
     },
     module: {
 
@@ -157,11 +157,11 @@ const config = {
 
             {
                 test: /\.module.css$/,
-                use: moduleCssLoaders
+                use: moduleCssLoaders,
             },
             {
                 test: /^((?!\.module).)*css$/,
-                use: cssLoaders
+                use: cssLoaders,
             },
 
             // ## scss files support
@@ -173,61 +173,61 @@ const config = {
             // test: /\.scss$/,
             {
                 test: /\.module.scss$/,
-                use: moduleScssLoaders//scssLoaders
+                use: moduleScssLoaders, // scssLoaders
             },
             {
                 test: /^((?!\.module).)*scss$/,
-                use: scssLoaders
+                use: scssLoaders,
             },
 
             // ## images
             // ---------
             {
                 test: /\.gif$/,
-                use: 'url-loader?limit=16000&mimetype=image/gif&name=[name].[ext]?[hash]'
+                use: 'url-loader?limit=16000&mimetype=image/gif&name=[name].[ext]?[hash]',
             },
             {
                 test: /\.jpg$/,
-                use: 'url-loader?limit=100000&mimetype=image/jpg&name=[name].[ext]?[hash]'
+                use: 'url-loader?limit=100000&mimetype=image/jpg&name=[name].[ext]?[hash]',
             },
             {
-                test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192'
+                test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192',
             },
             {
                 test: /.(svg?)(\?[a-z0-9]+)?$/,
                 loader: 'url-loader',
                 query: {
                     limit: 10000,
-                    mimetype: "image/svg+xml",
+                    mimetype: 'image/svg+xml',
                     name: '[name].[hash:7].[ext]',
                     outputPath: 'assets/',
-                }
+                },
             },
 
             // ## html/md
             {
                 test: /\.html/,
-                use: ["html-loader"]
+                use: ['html-loader'],
             },
             {
                 test: /\.md/,
-                use: ["html-loader", "markdown-loader"]
+                use: [ 'html-loader', 'markdown-loader' ],
             },
 
             // ## fonts
             {
                 test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-                use: "url-loader?limit=10000&mimetype=application/octet-stream"
+                use: 'url-loader?limit=10000&mimetype=application/octet-stream',
             },
             {
                 test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 loader: 'url-loader',
                 query: {
                     limit: 10000,
-                    mimetype: "application/font-woff",
+                    mimetype: 'application/font-woff',
                     name: '[name].[hash:7].[ext]',
                     outputPath: 'assets/',
-                }
+                },
             },
             {
                 test: /\.(eot|ttf|otf)(\?.*)?$/,
@@ -236,7 +236,7 @@ const config = {
                     limit: 10000,
                     name: '[name].[hash:7].[ext]',
                     outputPath: 'assets/',
-                }
+                },
             },
 
             // ## js/jsx
@@ -244,7 +244,7 @@ const config = {
                 test: /\.(js|jsx)/,
                 use: {
                     loader: 'babel-loader',
-                    options: babelConfig
+                    options: babelConfig,
                 },
                 // use: [
                 //     'babel-loader', //
@@ -257,22 +257,22 @@ const config = {
                 //     }
                 // }
                 //     ],
-                exclude: /(node_modules|public)/
+                exclude: /(node_modules|public)/,
             },
             {
                 test: /\.json/,
                 use: 'json-loader',
-                exclude: /(node_modules|public)/
+                exclude: /(node_modules|public)/,
             },
         ],
     },
     resolve: {
-        extensions: ['.jsx', '.js'],
-        modules: ['node_modules']
+        extensions: [ '.jsx', '.js' ],
+        modules: ['node_modules'],
     },
     plugins: [
         new webpack.DefinePlugin({
-            'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV) }
+            'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV) },
         }),
         new HtmlWebpackPlugin({
             filename: 'index.html', // target name
@@ -281,7 +281,7 @@ const config = {
             template: htmlTempl,
             publicPath: pubPath,
             inject: 'body',
-            minify: false // ref: https://github.com/kangax/html-minifier#options-quick-reference
+            minify: false, // ref: https://github.com/kangax/html-minifier#options-quick-reference
         }),
         new webpack.ProvidePlugin({ // ref: http://stackoverflow.com/a/42735205
             $: 'jquery',
@@ -289,7 +289,7 @@ const config = {
             'window.jQuery': 'jquery',
             'window.Tether': 'tether',
             tether: 'tether',
-            Tether: 'tether'
+            Tether: 'tether',
         }),
         /*
                 new webpack.optimize.CommonsChunkPlugin({
@@ -318,9 +318,9 @@ const config = {
         */
     ],
     performance: {
-        hints: false
-    }
-};
+        hints: false,
+    },
+}
 
 module.exports = {
     appMain, // Main application's file
@@ -332,4 +332,4 @@ module.exports = {
     rootPath, // Root of the project
     srcPath, // Sources files
     statPath, // Static files ro include in distribution
-};
+}
