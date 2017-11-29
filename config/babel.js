@@ -17,7 +17,7 @@ module.exports = {
 
         'transform-class-properties',
 
-        [ 'transform-react-remove-prop-types', {'mode': 'wrap'}],
+        [ 'transform-react-remove-prop-types', { 'mode': 'wrap' }],
 
     ],
     'env': {

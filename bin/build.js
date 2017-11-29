@@ -27,17 +27,25 @@ const errorStatsConfig = {
 
 const compile = async () => webpack(buildconfig,
     (err, stats) => {
+
         if (err) {
+
             console.log(err)
+
             return
+
         }
 
         if (stats.hasErrors() || stats.hasWarnings()) {
+
             console.log(stats.toString(errorStatsConfig))
+
             return
+
         }
 
         console.log(stats.toString(statsConfig))
+
     })
 
 compile()

@@ -26,16 +26,20 @@ const pkg = require(path.join(rootPath, 'package.json'))
 // It takes NPM original script name in variable.
 // Returns `undefined` while 'webpack' is run directly.
 const npmScript = process.env.npm_lifecycle_event
+
 console.log('=> Running NPM script: \'' + npmScript + '\'')
 
 // Generate an error if webpack is run directly
 // --------------------------------------------
 if (typeof (npmScript) === 'undefined') {
+
     const scripts = Object.keys(pkg.scripts)
+
     console.log('Please don\'t run webpack directly, use one of the following npm scripts:')
     console.log(scripts.toString())
     console.log('Example: npm run', scripts[0])
     process.exit(1)
+
 }
 
 // Configure paths of the application

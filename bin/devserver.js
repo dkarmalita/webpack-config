@@ -27,5 +27,7 @@ devServerOptions.stats.colors = (devServerOptions.stats.colors !== false)
 const server = new WebpackDevServer(compiler, devServerOptions)
 
 server.listen(port, host, () => {
+
     console.log('Starting server on ' + host + ':' + port)
+
 })
