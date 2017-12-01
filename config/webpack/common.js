@@ -1,6 +1,6 @@
 /* eslint no-console: 0, 'no-useless-escape': 'off' */
 
-const babelConfig = require('./babel')
+const babelConfig = require('../babel')
 
 // Import required node packages
 // -----------------------------
@@ -19,7 +19,16 @@ const rootPath = process.cwd()
 
 // Import project's `package.json`
 // -------------------------------
-const pkg = require(path.join(rootPath, 'package.json'))
+// const pkg = require(path.join(rootPath, 'package.json'))
+
+const {
+    appMain,
+    distPath,
+    htmlTempl,
+    srcPath,
+    statPath,
+    port,
+} = require('./defaults.js')
 
 // Get name of the npm's script executed
 // -------------------------------------
@@ -29,29 +38,7 @@ const npmScript = process.env.npm_lifecycle_event
 
 console.log('=> Running NPM script: \'' + npmScript + '\'')
 
-// Generate an error if webpack is run directly
-// --------------------------------------------
-if (typeof (npmScript) === 'undefined') {
-
-    const scripts = Object.keys(pkg.scripts)
-
-    console.log('Please don\'t run webpack directly, use one of the following npm scripts:')
-    console.log(scripts.toString())
-    console.log('Example: npm run', scripts[0])
-    process.exit(1)
-
-}
-
-// Configure paths of the application
-// ----------------------------------
-// const rootPath   = path.resolve(__dirname, "../../");       // Root of the project
-// const mainFileName = path.parse(pkg.main).base
-const srcPath = path.join(rootPath, pkg.webpack.source) // Sources files
-const statPath = path.join(rootPath, pkg.webpack.static) // Static files ro include in distribution
-const distPath = path.join(rootPath, pkg.webpack.build) // Target path for distribution to generate
-
-const htmlTempl = path.join(rootPath, pkg.webpack.html) // Template to generate the "index.html"
-const appMain = path.join(rootPath, pkg.webpack.main) // Main application's file
+const loader = (name) => require.resolve(name)
 
 const pubPath = '/' // Path of the application on a domen
 
@@ -59,58 +46,34 @@ const pubPath = '/' // Path of the application on a domen
 // -----------------------
 const isDevelopment = () => process.env.NODE_ENV === 'development'
 
-const cssLoaders = [{
-    loader: 'style-loader',
-    options: {
-        sourceMap: isDevelopment(),
-    },
-}, {
-    loader: 'css-loader',
-    options: {
-        importLoaders: 1,
-        modules: false,
-        localIdentName: '[name]_[local]_[hash:base64:5]',
-    },
-}, {
-    loader: 'postcss-loader',
-    options: {
-        sourceMap: isDevelopment(),
-        plugins: () => [ autoprefixer, cssEasyImport ],
-    },
-}]
-
-const scssLoaders = [
-    ...cssLoaders, {
-        loader: 'sass-loader',
+const scssLoaders = (modules=false) => [
+    {
+        loader: loader('style-loader'),
         options: {
             sourceMap: isDevelopment(),
         },
     },
-]
-
-const moduleCssLoaders = [{
-    loader: 'style-loader',
-    options: {
-        sourceMap: isDevelopment(),
+    {
+        loader: loader('css-loader'),
+        options: {
+            importLoaders: 1,
+            // url: false,
+            modules: modules,
+            localIdentName: '[name]_[local]_[hash:base64:5]',
+        },
     },
-}, {
-    loader: 'css-loader',
-    options: {
-        importLoaders: 1,
-        modules: true,
-        localIdentName: '[name]_[local]_[hash:base64:5]',
+    {
+        loader: loader('postcss-loader'),
+        options: {
+            sourceMap: isDevelopment(),
+            plugins: () => [
+                autoprefixer,
+                cssEasyImport
+            ],
+        },
     },
-}, {
-    loader: 'postcss-loader',
-    options: {
-        sourceMap: isDevelopment(),
-        plugins: () => [ autoprefixer, cssEasyImport ],
-    },
-}]
-
-const moduleScssLoaders = [
-    ...moduleCssLoaders, {
-        loader: 'sass-loader',
+    {
+        loader: loader('sass-loader'),
         options: {
             sourceMap: isDevelopment(),
         },
@@ -159,29 +122,21 @@ const config = {
             //     exclude: [/(node_modules|public|demo)/]
             // },
 
-            {
-                test: /\.module.css$/,
-                use: moduleCssLoaders,
-            },
-            {
-                test: /^((?!\.module).)*css$/,
-                use: cssLoaders,
-            },
-
-            // ## scss files support
+            // ## scss & css files support
             // ---------------------------------
             // We will support two masks here:
             // `*.scss` for global styles
             // `*.module.scss` for module styles
             // ---------------------------------
-            // test: /\.scss$/,
             {
-                test: /\.module.scss$/,
-                use: moduleScssLoaders, // scssLoaders
+                test: /\.module\.(css|scss)$/,
+                use: scssLoaders(true), // FIXME
+
             },
             {
-                test: /^((?!\.module).)*scss$/,
-                use: scssLoaders,
+                test: /\.(css|scss)$/,
+                exclude: /\.module\.(css|scss)$/,
+                use: scssLoaders(),
             },
 
             // ## images
@@ -199,7 +154,7 @@ const config = {
             },
             {
                 test: /.(svg?)(\?[a-z0-9]+)?$/,
-                loader: 'url-loader',
+                loader: loader('url-loader'),
                 query: {
                     limit: 10000,
                     mimetype: 'image/svg+xml',
@@ -211,11 +166,16 @@ const config = {
             // ## html/md
             {
                 test: /\.html/,
-                use: ['html-loader'],
+                use: [
+                    loader('html-loader')
+                ],
             },
             {
                 test: /\.md/,
-                use: [ 'html-loader', 'markdown-loader' ],
+                use: [
+                    loader('html-loader'),
+                    loader('markdown-loader')
+                ],
             },
 
             // ## fonts
@@ -225,7 +185,7 @@ const config = {
             },
             {
                 test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                loader: 'url-loader',
+                loader: loader('url-loader'),
                 query: {
                     limit: 10000,
                     mimetype: 'application/font-woff',
@@ -235,7 +195,7 @@ const config = {
             },
             {
                 test: /\.(eot|ttf|otf)(\?.*)?$/,
-                loader: 'url-loader',
+                loader: loader('url-loader'),
                 query: {
                     limit: 10000,
                     name: '[name].[hash:7].[ext]',
@@ -247,7 +207,7 @@ const config = {
             {
                 test: /\.(js|jsx)/,
                 use: {
-                    loader: 'babel-loader',
+                    loader: loader('babel-loader'),
                     options: babelConfig,
                 },
                 // use: [
@@ -281,7 +241,6 @@ const config = {
         new HtmlWebpackPlugin({
             filename: 'index.html', // target name
             favid: Date.now(), // it is reffered in template and forced favicon get updated
-            pkg: pkg,
             template: htmlTempl,
             publicPath: pubPath,
             inject: 'body',
@@ -331,7 +290,7 @@ module.exports = {
     config,
     distPath, // Target path for distribution to generate
     htmlTempl, // Template to generate the "index.html"
-    pkg,
+    port,
     pubPath, // Path of the application on a domen
     rootPath, // Root of the project
     srcPath, // Sources files

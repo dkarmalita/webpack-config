@@ -1,4 +1,5 @@
 /* eslint no-console: 0 */
+const fs = require('fs')
 
 // Set environment variable to use by React & Babel
 // ------------------------------------------------
@@ -25,6 +26,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 // https://github.com/johnagan/clean-webpack-plugin
 
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+// const CopyWebpackPlugin = require('copy-webpack-plugin')
 // A webpack plugin that copies individual files or
 // entire directories to the build directory.
 
@@ -57,19 +59,6 @@ config.plugins = config.plugins.concat([
         threshold: 10240,
         minRatio: 0.8,
     }),
-    new CopyWebpackPlugin([
-        // Copy glob results (with dot files) to /absolute/path/
-        { from: statPath, to: '' },
-    ], {
-        ignore: [
-            '.*',
-            '_*',
-        ],
-        // By default, we only copy modified files during
-        // a watch or webpack-dev-server build. Setting this
-        // to `true` copies all files.
-        copyUnmodified: true,
-    }),
     new CleanWebpackPlugin([distPath], {
         root: rootPath, //  Useful when relative references are used in array
         verbose: true,
@@ -78,6 +67,24 @@ config.plugins = config.plugins.concat([
     }),
     // new webpack.optimize.DedupePlugin(), // https://github.com/webpack/webpack/issues/1082
 ])
+
+if (fs.existsSync(statPath)) {
+    config.plugins = config.plugins.concat([
+        new CopyWebpackPlugin([
+            // Copy glob results (with dot files) to /absolute/path/
+            { from: statPath, to: '' },
+        ], {
+            ignore: [
+                '.*',
+                '_*',
+            ],
+            // By default, we only copy modified files during
+            // a watch or webpack-dev-server build. Setting this
+            // to `true` copies all files.
+            copyUnmodified: true,
+        }),
+    ])
+}
 
 config.stats = {
     modules: false,

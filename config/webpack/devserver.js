@@ -11,7 +11,7 @@ process.env.NODE_ENV = 'development'
 const {
     config, // common part of config
     statPath, // path to static content (resolved)
-    pkg,
+    port,
 } = require('./common')
 
 // Import required webpack packages
@@ -22,8 +22,10 @@ const webpack = require('webpack')
 // --------------------------------------
 config.entry = [
     // 'react-hot-loader/patch',       // ! this string has to be the first
-    'webpack-dev-server/client?http://localhost:' + pkg.webpack.devport,
-    'webpack/hot/only-dev-server',
+    // 'webpack-dev-server/client?http://localhost:' + port,
+    require.resolve('webpack-dev-server/client'),
+    // require.resolve('webpack-dev-server/client'), + `?/http://localhost: + ${port}`,
+    // require.resolve('webpack/hot/only-dev-server'),
 ].concat(config.entry)
 
 config.devtool = 'cheap-module-eval-source-map'
@@ -32,7 +34,7 @@ config.devServer = {
     inline: true,
     hot: false,
     host: '0.0.0.0',
-    port: pkg.webpack.devport, // 3033,
+    port: port, // 3033,
     contentBase: statPath,
     // historyApiFallback: true,
 

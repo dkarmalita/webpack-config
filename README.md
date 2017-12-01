@@ -12,9 +12,8 @@ In the `package.json`:
 
 ```
   "scripts": {
-    "build": "build",
-    "serve": "devserver",
-    "esfix": "esfix"
+    "build": "wp-build",
+    "serve": "wp-serve"
   },
   "webpack": {
     "source": "src",

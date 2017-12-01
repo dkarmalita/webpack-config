@@ -1,24 +1,22 @@
+const babelPreset = (name) => require.resolve(`babel-preset-${name}`)
+const babelPlugin = (name) => require.resolve(`babel-plugin-${name}`)
+
 module.exports = {
     'presets': [
-        [ 'env', {
+        [ babelPreset('env'), {
             'targets': {
                 'browsers': [ 'last 2 versions', 'ie 11' ],
                 'modules': false,
             },
         }],
-        'react',
+        babelPreset('react'),
     ],
 
     'plugins': [
-
-        'transform-runtime',
-
-        'transform-object-rest-spread',
-
-        'transform-class-properties',
-
-        [ 'transform-react-remove-prop-types', { 'mode': 'wrap' }],
-
+        babelPlugin('transform-runtime'),
+        babelPlugin('transform-object-rest-spread'),
+        babelPlugin('transform-class-properties'),
+        [ babelPlugin('transform-react-remove-prop-types'), { 'mode': 'wrap' }],
     ],
     'env': {
         'development': {},

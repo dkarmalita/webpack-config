@@ -7,14 +7,22 @@
     "fix": "node ./bin/esfix.js"
   },
   "bin": {
-    "build": "./bin/build.js",
-    "devserver": "./bin/devserver.js"
+    "wp-build": "./bin/build.js",
+    "wp-serve": "./bin/serve.js"
   },
   "keywords": [
     "webpack",
     "babel"
   ],
+  "author": {
+    "name": "Dmitriy Karmalita",
+    "email": "dmitriy.karmalita@gmail.com"
+  },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dkarmalita/webpack-config.git"
+  },
   "engines": {
     "node": ">= 6.0.0",
     "npm": ">= 3.0.0"
