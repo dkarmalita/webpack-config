@@ -8,29 +8,55 @@ const path = require('path')
 const rootPath = process.cwd()
 const pkg = require(path.join(rootPath, 'package.json'))
 
-let appMain = path.join(rootPath, 'src/app.js') // Main application's file
-let distPath = path.join(rootPath, 'dist') // Target path for distribution to generate
-let htmlTempl = path.join(rootPath, 'src/index.ejs') // Template to generate the "index.html"
-let port = 3000
-let srcPath = path.join(rootPath, 'src') // Sources files
-let statPath = path.join(rootPath, 'static') // Static files ro include in distribution
+const port = (pkg.webpack && pkg.webpack.devport) ? pkg.webpack.devport : 3000
 
-if (pkg.webpack !== undefined) {
+// Main application's file
+const appMain = (pkg.webpack && pkg.webpack.main)
+? path.join(rootPath, pkg.webpack.main)
+: path.join(rootPath, 'src/app')
 
-    appMain = path.join(rootPath, pkg.webpack.main || appMain) // Main application's file
-    distPath = path.join(rootPath, pkg.webpack.build || distPath) // Target path for distribution to generate
-    htmlTempl = path.join(rootPath, pkg.webpack.html || htmlTempl) // Template to generate the "index.html"
-    port = pkg.webpack.devport || port
-    srcPath = path.join(rootPath, pkg.webpack.source || srcPath) // Sources files
-    statPath = path.join(rootPath, pkg.webpack.static || statPath) // Static files ro include in distribution
+// Target path for distribution to generate
+const distPath = (pkg.webpack && pkg.webpack.build)
+? path.join(rootPath, pkg.webpack.build)
+: path.join(rootPath, 'dist')
 
+// Template to generate the "index.html"
+const htmlTempl = (pkg.webpack && pkg.webpack.html)
+? path.join(rootPath, pkg.webpack.html)
+: path.join(rootPath, 'src/index.ejs')
+
+// Sources files
+const srcPath = (pkg.webpack && pkg.webpack.source)
+? path.join(rootPath, pkg.webpack.source)
+: path.join(rootPath, 'src')
+
+// Static files ro include in distribution
+const statPath = (pkg.webpack && pkg.webpack.static)
+? path.join(rootPath, pkg.webpack.static)
+: path.join(rootPath, 'static')
+
+// console.log(appMain),
+// console.log(distPath),
+// console.log(htmlTempl)
+// console.log(srcPath),
+// console.log(statPath),
+// console.log(port)
+
+// Load alias object from package.json
+const alias = {}
+if (pkg.webpack && pkg.webpack.alias) {
+    Object.keys(pkg.webpack.alias).forEach((key)=>{
+        alias[key] = path.join(rootPath, pkg.webpack.alias[key]) // Static files ro include in distribution
+        console.log(key, alias[key])
+    })
 }
 
 module.exports = {
+    alias,
     appMain,
     distPath,
     htmlTempl,
+    port,
     srcPath,
     statPath,
-    port,
 }

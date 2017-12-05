@@ -20,7 +20,9 @@ module.exports = {
     ],
     'env': {
         'development': {},
-        'production': {},
+        'production': {
+            'compact': true
+        },
         'test': {
             'plugins': [
                 [ 'istanbul',

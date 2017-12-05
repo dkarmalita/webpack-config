@@ -21,13 +21,20 @@ In the `package.json`:
     "build": "dist",
     "html": "src/index.ejs",
     "main": "src/app.js",
-    "devport": "3000"
+    "devport": "3000",
+    "alias": {
+        "@Services": "src/services"
+    }
   },
-  "eslintConfig": {
-    "files": [ "src/**/*.js", "src/**/*.jsx" ],
-    "fix": true
-  }
 ```
 
-Notes:
-* The `eslintConfig` section can be used to rewrite all of the eslint options. Please refer to the `package.json` options in [eslint doc](https://eslint.org/docs/user-guide/configuring#configuration-file-formats)
+
+## Module resolving
+
+According to the setup, you can either refer your modules relative to the source root or define alias object in the package.json of our project. For a case of the setup example above, both references to the `services` are equivalent:
+```js
+import { preloader } from '@Services'
+import { preloader } from 'services'
+```
+
+

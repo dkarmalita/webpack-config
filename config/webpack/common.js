@@ -1,4 +1,5 @@
-/* eslint no-console: 0, 'no-useless-escape': 'off' */
+/* eslint no-console: 0, 'ano-useless-escape': 'off' */
+const path = require('path')
 
 const babelConfig = require('../babel')
 
@@ -18,12 +19,13 @@ const rootPath = process.cwd()
 // const pkg = require(path.join(rootPath, 'package.json'))
 
 const {
+    alias,
     appMain,
     distPath,
     htmlTempl,
+    port,
     srcPath,
     statPath,
-    port,
 } = require('./defaults.js')
 
 // Get name of the npm's script executed
@@ -88,24 +90,25 @@ const config = {
         publicPath: pubPath, //
         chunkFilename: 'async.[id].js',
     },
+    target: 'web',
     module: {
 
-        noParse: [
-            // Don’t parse files matching a RegExp or an array of RegExps.
-            // It’s matched against the full resolved request.
-            // This can boost the performance when ignoring big libraries.
+        // noParse: [
+        //     // Don’t parse files matching a RegExp or an array of RegExps.
+        //     // It’s matched against the full resolved request.
+        //     // This can boost the performance when ignoring big libraries.
 
-            // The files are expected to have no call to require, define, or similar.
-            // They are allowed to use exports and module.exports.
+        //     // The files are expected to have no call to require, define, or similar.
+        //     // They are allowed to use exports and module.exports.
 
-            // 'noParse' key allows us use "ready to go" parts (like
-            // pre-minified libraries and etc.). These parts are including
-            // in bundle without preprocessing.
-            // http://stackoverflow.com/a/35018271
-
-            /\min.(js|css)$/,
-            // leave out all of min.js and min.css files.
-        ],
+        //     // 'noParse' key allows us use "ready to go" parts (like
+        //     // pre-minified libraries and etc.). These parts are including
+        //     // in bundle without preprocessing.
+        //     // http://stackoverflow.com/a/35018271
+        //     // /node_modules/,
+        //     /\min.(js|css)$/,
+        //     // leave out all of min.js and min.css files.
+        // ],
 
         rules: [
             // {
@@ -138,15 +141,36 @@ const config = {
             // ## images
             // ---------
             {
-                test: /\.gif$/,
-                use: 'url-loader?limit=16000&mimetype=image/gif&name=[name].[ext]?[hash]',
+                test: /\.png$/,
+                use: [{
+                    loader: loader('url-loader'),
+                    options: {
+                        limit: 8192,
+                        mimetype: 'image/png'
+                    }
+                }]
             },
             {
                 test: /\.jpg$/,
-                use: 'url-loader?limit=100000&mimetype=image/jpg&name=[name].[ext]?[hash]',
+                use: [{
+                    loader: loader('url-loader'),
+                    options: {
+                        limit: 8192,
+                        mimetype: 'image/jpg',
+                        name: '[name].[hash:7].[ext]',
+                    }
+                }]
             },
             {
-                test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192',
+                test: /\.gif$/,
+                use: [{
+                    loader: loader('url-loader'),
+                    options: {
+                        limit: 8192,
+                        mimetype: 'image/gif',
+                        name: '[name].[hash:7].[ext]',
+                    }
+                }]
             },
             {
                 test: /.(svg?)(\?[a-z0-9]+)?$/,
@@ -177,7 +201,13 @@ const config = {
             // ## fonts
             {
                 test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-                use: 'url-loader?limit=10000&mimetype=application/octet-stream',
+                loader: loader('url-loader'),
+                query: {
+                    limit: 10000,
+                    mimetype: 'application/x-font-ttf',
+                    name: '[name].[hash:7].[ext]',
+                    outputPath: 'assets/',
+                },
             },
             {
                 test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -217,18 +247,20 @@ const config = {
                 //     }
                 // }
                 //     ],
+
                 exclude: /(node_modules|public)/,
             },
             {
                 test: /\.json/,
                 use: 'json-loader',
-                exclude: /(node_modules|public)/,
+                // exclude: /(node_modules|public)/,
             },
         ],
     },
     resolve: {
         extensions: [ '.jsx', '.js' ],
-        modules: ['node_modules'],
+        modules: [srcPath,'node_modules'],
+        alias: alias,
     },
     plugins: [
         new webpack.DefinePlugin({
