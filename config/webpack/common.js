@@ -2,10 +2,6 @@
 
 const babelConfig = require('../babel')
 
-// Import required node packages
-// -----------------------------
-const path = require('path')
-
 // Import required webpack packages
 // --------------------------------
 const webpack = require('webpack')
@@ -46,7 +42,7 @@ const pubPath = '/' // Path of the application on a domen
 // -----------------------
 const isDevelopment = () => process.env.NODE_ENV === 'development'
 
-const scssLoaders = (modules=false) => [
+const scssLoaders = (modules = false) => [
     {
         loader: loader('style-loader'),
         options: {
@@ -68,7 +64,7 @@ const scssLoaders = (modules=false) => [
             sourceMap: isDevelopment(),
             plugins: () => [
                 autoprefixer,
-                cssEasyImport
+                cssEasyImport,
             ],
         },
     },
@@ -167,14 +163,14 @@ const config = {
             {
                 test: /\.html/,
                 use: [
-                    loader('html-loader')
+                    loader('html-loader'),
                 ],
             },
             {
                 test: /\.md/,
                 use: [
                     loader('html-loader'),
-                    loader('markdown-loader')
+                    loader('markdown-loader'),
                 ],
             },
 

@@ -69,6 +69,7 @@ config.plugins = config.plugins.concat([
 ])
 
 if (fs.existsSync(statPath)) {
+
     config.plugins = config.plugins.concat([
         new CopyWebpackPlugin([
             // Copy glob results (with dot files) to /absolute/path/
@@ -84,6 +85,7 @@ if (fs.existsSync(statPath)) {
             copyUnmodified: true,
         }),
     ])
+
 }
 
 config.stats = {
