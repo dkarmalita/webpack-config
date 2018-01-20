@@ -37,4 +37,21 @@ import { preloader } from '@Services'
 import { preloader } from 'services'
 ```
 
+## Valid Example
 
+__index.ejs__
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <link rel="icon" href="/favicon.ico?v=<%= htmlWebpackPlugin.options.favid %>">
+    <title><%= htmlWebpackPlugin.options.pkg.name %></title>
+    <base href="<%= htmlWebpackPlugin.options.publicPath %>">
+    <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"-->
+  </head>
+  <body>
+    <div id='root'>Loading...</div>
+  </body>
+</html>
+```
