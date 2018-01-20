@@ -1,0 +1,21 @@
+{
+  "name": "Example-Redux-observable-Fetch",
+  "version": "0.1.0",
+  "description": "1. Add pure component(s)x",
+  "main": "index.js",
+  "scripts": {
+    "start": "wp-serve",
+    "build": "wp-build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Dmitriy Karmalita <altmine@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@kard/webpack-config": "latest"
+  },
+  "dependencies": {
+    "react": "latest",
+    "react-dom": "latest"
+  }
+}
